@@ -83,4 +83,24 @@ SELECT DISTINCT(ShipCountry)
 FROM 'ORDER'
 WHERE ShipCountry NOT LIKE '%a' AND ShipCountry NOT LIKE '%e' AND ShipCountry NOT LIKE '%i' AND ShipCountry NOT LIKE '%o' AND ShipCountry NOT LIKE '%u';
 
+-- x wszystkie nie zakończone na (A,E,I,O LUB U) i nie zaczynające się od tych liter 
+SELECT DISTINCT ShipCountry
+FROM 'ORDER' 
+WHERE NOT (ShipCountry REGEXP'^[A,E,I,O,U]|[a,e,i,o,u]$');
+
+-- JAK BYŁABY RÓŻNICA MIĘDZY ŚREDNIĄ W QUANTITY W TABELI ORDERDETAI A ŚREDNIĄ Z TEJ SAMEJ TABELI
+-- JEŚLI WYTNIEMY WSZTSTKIE 0 
+
+SELECT AVG(QUANTITY)- AVG(REPLACE(QUANTITY,0,''))
+FROM OrderDetail;
+
+-- z tabeli OrderDetail wybierz największą wartość UnitPrice pomnożone przez quantity.
+-- zwróć wartość i ilość największych wartości 
+
+
+SELECT UnitPrice * Quantity, COUNT(UnitPrice * Quantity)
+FROM OrderDetail
+GROUP BY UnitPrice * Quantity 
+ORDER BY UnitPrice * Quantity DESC 
+LIMIT 1;
 
