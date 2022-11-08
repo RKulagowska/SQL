@@ -118,3 +118,54 @@ FROM Product
 
 SELECT ROUND(DISCOUNT,1) 
 FROM OrderDetail;
+
+--POKAŻ ZAMIAST UnitPrice, AVG(UnitPrice) - obliczonego dla SupplierId  - użycie over 
+
+SELECT ProductName,
+		SupplierId,
+		Avg(unitPrice) over ()
+FROM Product
+
+--PONUMERUJ PRODUKTY PO SupplierId
+SELECT ProductName,
+		SupplierId,
+		row_number() OVER(PARTITION BY SupplierId)
+FROM Product;
+
+-- POKAŻ ProductName, ProductId iponumeruj produkty 
+
+SELECT ProductName,
+		SupplierId,
+		row_number() OVER(order By SupplierId)
+FROM Product;
+
+--PONUMERUJ PRODUKTY PO SupplierId i wysokośći ceny 
+SELECT ProductName,
+		SupplierId,
+		UnitPrice,
+		row_number() OVER(PARTITION BY SupplierId order by UnitPrice)
+FROM Product;
+
+-- pokaż 2 największe UnitPrice dla każdego SupplierId
+SELECT ProductName,
+		SupplierId,
+		UnitPrice
+FROM (
+SELECT ProductName,
+		SupplierId,
+		UnitPrice,
+		rank() over (PARTITION BY SupplierId order by UnitPrice desc) as BEST
+FROM Product) AS NEW
+WHERE BEST < 3;
+
+
+-- POKAŻ medianę unit price
+SELECT CAST(UnitPrice AS DECIMAL(10,2))
+FROM
+(
+SELECT UnitPrice,
+		row_number() OVER(ORDER BY UnitPrice) AS RN,
+		COUNT(UnitPrice) over() as CNT
+from Product
+)
+WHERE RN = (CNT+1)/2;
