@@ -1,0 +1,66 @@
+CREATE TABLE stock_market(	
+		ticker TEXT NOT NULL,
+		company TEXT NOT NULL,
+		price REAL NOT NULL
+);
+INSERT INTO stock_market (ticker,company, price)
+VALUES ('CDR', 'CD PROJECT', 260),
+		('PLW','PLAYWAY',650),
+		('TEN','TEN SQUARE GAMES',550),
+		('PCF','PCF GROUP',80),
+		('11B','11 BIT STUDIOS',550),
+		('BBT','BOOMBIT',18),
+		('CFG','CREATIVE FORGE',37);
+		
+SELECT * FROM stock_market;
+SELECT * , ROWID FROM stock_market;
+SELECT * , OID FROM stock_market;
+SELECT * , _ROWID_ FROM stock_market;
+
+SELECT * , _ROWID_ 
+FROM stock_market
+WHERE ROWID ==5;
+
+SELECT * 
+FROM stock_market
+WHERE ROWID ==5;
+
+EXPLAIN QUERY PLAN 
+SELECT * 
+FROM stock_market
+WHERE ROWID ==5;
+
+EXPLAIN QUERY PLAN 
+SELECT * 
+FROM stock_market
+WHERE ticker =='BBT';
+
+DROP TABLE stock_market;
+
+CREATE TABLE stock_market(	
+		id INTEGER PRIMARY KEY,
+		ticker TEXT NOT NULL,
+		company TEXT NOT NULL,
+		price REAL NOT NULL
+);
+INSERT INTO stock_market (ticker,company, price)
+VALUES ('CDR', 'CD PROJECT', 260),
+		('PLW','PLAYWAY',650),
+		('TEN','TEN SQUARE GAMES',550),
+		('PCF','PCF GROUP',80),
+		('11B','11 BIT STUDIOS',550),
+		('BBT','BOOMBIT',18),
+		('CFG','CREATIVE FORGE',37);
+		
+SELECT *,ROWID  from stock_market;
+
+EXPLAIN QUERY PLAN 
+SELECT * 
+FROM stock_market
+WHERE id == 5;
+
+EXPLAIN QUERY PLAN 
+SELECT * 
+FROM stock_market
+WHERE ticker == 'CFG';
+
