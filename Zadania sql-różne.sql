@@ -169,3 +169,77 @@ SELECT UnitPrice,
 from Product
 )
 WHERE RN = (CNT+1)/2;
+
+--Zapoznaj się z tabelami:order_01_2021, order_02_2021. Tabele przechowują zamówienia dla dwóch kolejnych miesięcy. Połącz te tabele w jedną wykorzystując 
+--operator UNION. W tabeli wynikowej wyświetl wszystkie kolumny przekazując ich nazwy bezpośrednio w zapytaniu. Posortuj wynik po malejącej wartości dla kolumny quantity.
+
+SELECT order_id,
+	product_id,
+	quantity 
+FROM order_01_2021
+UNION
+SELECT order_id,
+	product_id,
+	quantity
+FROM order_02_2021
+ORDER BY quantity DESC;
+
+-- Podane jest poniższe zapytanie:
+-- SELECT t1.order_id,
+--       t1.quantity,
+--       t2.product_name,
+--       t2.list_price
+--FROM order_01_2021 AS t1
+--LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+--Wykorzystując operator UNION utwórz zapytanie, które wyświetli unikalne nazwy produktów sprzedanych w styczniu i w lutym (tabele order_01_2021 oraz order_01_2021).
+
+SELECT t2.product_name
+FROM order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+UNION
+SELECT t2.product_name
+FROM order_02_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+--Podane jest poniższe zapytanie:
+-- SELECT t1.quantity,
+--       t2.product_name,
+--      t2.list_price,
+--      t1.quantity * t2.list_price AS total_price
+--FROM order_01_2021 AS t1
+--LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+--UNION ALL
+--SELECT t1.quantity,
+--       t2.product_name,
+--       t2.list_price,
+--       t1.quantity * t2.list_price AS total_price
+--FROM order_02_2021 AS t1
+--LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+--Wykorzystując podane zapytanie posortuj tabelę wynikową po malejącej wartości dla kolumny total_price i ogranicz wynik do pięciu pierwszych rekordów.
+
+SELECT * FROM(
+SELECT t1.quantity,
+       t2.product_name,
+       t2.list_price,
+       t1.quantity * t2.list_price AS total_price
+FROM order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+UNION ALL
+SELECT t1.quantity,
+       t2.product_name,
+       t2.list_price,
+       t1.quantity * t2.list_price AS total_price
+FROM order_02_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id)
+ORDER BY total_price DESC 
+LIMIT 5;
+
+
+--Utwórz zapytanie, które wyświetli liczbę unikalnych gatunków filmowych zawartych w tabeli movie_genres. Wykorzystaj w tym celu kolumnę genre_id.
+--Do wyniku przypisz alias unique_genres.
+
+SELECT COUNT(DISTINCT genre_id) AS unique_genres
+FROM movie_genres;
+
