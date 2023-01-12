@@ -88,5 +88,23 @@ PRINT replicate('* ', @var)
 SET @var = @var + 1
 END
 
+/*
+The total score of a hacker is the sum of their maximum scores for all of the challenges. Write a query to print the hacker_id, name, and total score of
+the hackers ordered by the descending score. If more than one hacker achieved the same total score, then sort the result by ascending hacker_id.
+Exclude all hackers with a total score of  from your result.
+*/
 
+SELECT s.hacker_id,
+        y.name,
+        SUM(su) AS score
+FROM 
+(SELECT hacker_id,
+       challenge_id,
+       max(score) AS su 
+FROM Submissions 
+GROUP BY hacker_id, challenge_id) AS s
+JOIN hackers AS y ON y.hacker_id = s.hacker_id
+GROUP BY s.hacker_id,y.name
+HAVING score != 0
+ORDER BY score DESC, s.hacker_id ASC;
 
