@@ -243,3 +243,34 @@ LIMIT 5;
 SELECT COUNT(DISTINCT genre_id) AS unique_genres
 FROM movie_genres;
 
+/*
+Utwórz zapytanie, które wyświetli liczbę gatunków filmowych dla każdego filmu. W tym celu pogrupuj dane z tabeli movie_genres na poziomie movie_id 
+i wyznacz liczbę gatunków dla każdego filmu przypisując alias number_of_genres. Wynik posortuj po malejącej wartości number_of_genres.
+*/
+
+SELECT movie_id,
+      count(movie_id) AS number_of_genres
+FROM movie_genres
+GROUP BY movie_id
+ORDER BY number_of_genres DESC;
+
+
+/* 
+Podane jest poniższe zapytanie:
+SELECT t1.movie_id,
+       t2.genre_name       
+FROM movie_genres AS t1
+LEFT JOIN genre AS t2 ON t1.genre_id = t2.genre_id;
+Przekształć podane zapytanie tak, aby wyświetlić tylko nazwy trzech najczęściej występujących kategorii filmowych w tabeli movie_genres.
+*/
+
+SELECT t2.genre_name       
+FROM movie_genres AS t1
+LEFT JOIN genre AS t2 ON t1.genre_id = t2.genre_id
+GROUP BY t2.genre_name
+ORDER BY count(t2.genre_name) DESC
+LIMIT 3;
+
+
+
+
